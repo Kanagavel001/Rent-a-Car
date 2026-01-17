@@ -17,7 +17,7 @@ connectCloudinary();
 
 app.use(express.json());
 app.use(cors());
-app.use(clerkMiddleware());
+app.use(clerkMiddleware())
 
 app.get('/', (req, res) => res.send("Server is Live!"));
 app.use('/api/stripe', express.raw({type: 'application/json'}), stripeWebhooks);
