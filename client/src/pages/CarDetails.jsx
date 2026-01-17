@@ -13,7 +13,7 @@ const CarDetails = () => {
   const [ fromDate, setFromDate] = useState('');
   const [ toDate, setToDate] = useState('');
 
-  const { cars } = useAppContext();
+  const { cars, user } = useAppContext();
 
   const fetchcar = async (id) => {
     const car = cars.find(vehicle => vehicle._id === id)
@@ -23,7 +23,7 @@ const CarDetails = () => {
 
   useEffect(()=>{
     fetchcar(id);
-  },[id]);
+  },[user]);
 
   return car && (
     <div className='bg-bg max-w-screen min-h-screen overflow-x-hidden mx-auto pt-18 pb-4 md:pt-22 px-4 md:px-16 lg:px-24 xl:px-32'>

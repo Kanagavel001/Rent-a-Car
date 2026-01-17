@@ -2,6 +2,7 @@ import axios from 'axios';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser, useAuth } from '@clerk/clerk-react'
+import notyf from '../components/Notyf';
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -12,7 +13,7 @@ export const AppProvider = ({ children }) => {
     const navigate = useNavigate();
     const { user } = useUser();
     const { getToken } = useAuth();
-    const [cars, setCars] = useState([])
+    const [cars, setCars] = useState([]);
 
     const carTypes = ["Hatchback", "Sedan", "SUV", "Luxury", "Electric"]
 
@@ -25,7 +26,7 @@ export const AppProvider = ({ children }) => {
 
     useEffect(()=>{
         fetchCars();
-    },[user])
+    }, []);
 
     const value = { axios, user, getToken, navigate, carTypes, cars, setCars, fetchCars }
 
