@@ -4,21 +4,47 @@ import { AirVent, ArrowRight, CalendarDays, Cog, Fuel, MapPin, StarIcon } from '
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useAppContext } from '../context/AppContext';
+import notyf from '../components/Notyf';
 
 const CarDetails = () => {
 
   const { id } = useParams();
   const [ car, setCar] = useState({});
-  const [mainImage, setMainImage] = useState(null);
-  const [ fromDate, setFromDate] = useState('');
-  const [ toDate, setToDate] = useState('');
+  const [ mainImage, setMainImage] = useState(null);
+  const [ pickupDate, setPickupDate] = useState('');
+  const [ returnDate, setReturnDate] = useState('');
+  const [ location, setLocation] = useState('');
 
-  const { cars, user } = useAppContext();
+  const { cars, user, axios, navigate } = useAppContext();
 
   const fetchcar = async (id) => {
     const car = cars.find(vehicle => vehicle._id === id)
     car && setCar(car)
-    car && setMainImage(car.images[0])
+    car && setMainImage(car.images[0]);
+  }
+
+  const handleBooking = async () => {
+    if(!pickUpDate || !returnDate || !location){
+      notyf.error('Required all fields')
+    }
+
+    const bookingData = {
+      user: id,
+      pickupDate,
+      returnDate,
+      location,
+      price: car.pricePerDay,
+      car: car._id,
+      carName: car.carName
+    }
+
+    const { data } = await axios.post('/api/booking/create', bookingData);
+
+    if(data.success){
+      window.location.href = data.url;
+    }else{
+      notyf.error(data.message);
+    }
   }
 
   useEffect(()=>{
@@ -32,7 +58,7 @@ const CarDetails = () => {
 
         <h1 className='text-2xl md:text-4xl font-bold title text-primary text-shadow-lg text-shadow-secondary'>{car.carName} <span className='text-sm font-semibold text-primary text-shadow-none'>({car.carType})</span></h1>
 
-        <button className='bg-linear-to-bl to-primary from-secondary hover:to-secondary/60 hover:from-secondary text-white hover:text-primary hover:shadow-lg shadow-primary/50 transition-all duration-300 flex px-4 rounded-full gap-1.5 hover:scale-105 active:scale-95 py-2 max-[450px]:py-1 group cursor-pointer'>
+        <button onClick={handleBooking} className='bg-linear-to-bl to-primary from-secondary hover:to-secondary/60 hover:from-secondary text-white hover:text-primary hover:shadow-lg shadow-primary/50 transition-all duration-300 flex px-4 rounded-full gap-1.5 hover:scale-105 active:scale-95 py-2 max-[450px]:py-1 group cursor-pointer'>
             Book Now 
             <div className='group-hover:translate-x-1 transition-all duration-300'>
                 <ArrowRight />
@@ -69,7 +95,7 @@ const CarDetails = () => {
           </div>
         </div>
 
-        <div className=' bg-secondary/20 border-2 border-primary/5 shadow-lg shadow-primary/20 rounded-2xl p-4 space-y-4 xl:w-1/2'>
+        <form className=' bg-secondary/20 border-2 border-primary/5 shadow-lg shadow-primary/20 rounded-2xl p-4 space-y-4 xl:w-1/2'>
 
           <div className='flex justify-between items-center'>
             <label htmlFor='from' className='flex lg:py-2 py-1 px-4 rounded-2xl ring-2 ring-primary/10 bg-white shadow-lg shadow-primary/20'>
@@ -77,10 +103,11 @@ const CarDetails = () => {
                 className='w-30 sm:w-40 outline-none font-medium'
                 id='from'
                 dateFormat={"dd/MM/yyyy"}
-                selected={fromDate}
-                onChange={(date) => setFromDate(date)}
+                selected={pickupDate}
+                onChange={(date) => setPickupDate(date)}
                 placeholderText="Pickup date"
                 minDate={new Date()}
+                required
               />
               <CalendarDays />
             </label>
@@ -89,10 +116,11 @@ const CarDetails = () => {
                 className='w-30 sm:w-40 outline-none font-medium'
                 id='to'
                 dateFormat={"dd/MM/yyyy"}
-                selected={toDate}
-                onChange={(date) => setToDate(date)}
+                selected={returnDate}
+                onChange={(date) => setReturnDate(date)}
                 placeholderText="Return date"
-                minDate={fromDate}
+                minDate={pickupDate}
+                required
               />
               <CalendarDays />
             </label>
@@ -102,16 +130,16 @@ const CarDetails = () => {
 
             <label htmlFor="location" className='relative flex lg:py-2 py-1 px-4 rounded-2xl ring-2 ring-primary/10 bg-white shadow-lg shadow-primary/20 outline-none w-44 sm:w-54'>
               <MapPin className='absolute right-4'/>
-              <input type="text" id='location' className='outline-none' placeholder='your city' />
+              <input required value={location} onChange={(e)=>setLocation(e.target.value)} type="text" id='location' className='outline-none' placeholder='your city' />
             </label>
 
-            <button className='bg-linear-to-bl to-primary from-secondary hover:to-secondary/60 hover:from-secondary text-white hover:text-primary hover:shadow-lg shadow-primary/50 transition-all duration-300 px-4 rounded-2xl hover:scale-105 active:scale-95 sm:py-2 w-45 sm:w-55 py-1 cursor-pointer '>
+            <button type='submit' className='bg-linear-to-bl to-primary from-secondary hover:to-secondary/60 hover:from-secondary text-white hover:text-primary hover:shadow-lg shadow-primary/50 transition-all duration-300 px-4 rounded-2xl hover:scale-105 active:scale-95 sm:py-2 w-45 sm:w-55 py-1 cursor-pointer '>
               Check Availability
             </button>
 
           </div>
           
-        </div>
+        </form>
       </div>
       
     </div>
