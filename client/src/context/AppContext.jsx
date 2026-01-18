@@ -28,7 +28,7 @@ export const AppProvider = ({ children }) => {
         fetchCars();
     }, []);
 
-    const value = { axios, user, getToken, navigate, carTypes, cars, setCars, fetchCars }
+    const value = { axios, user, getToken, navigate, carTypes, cars, setCars, fetchCars, notyf }
 
     return (
         <AppContext.Provider value={value}>

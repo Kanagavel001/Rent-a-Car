@@ -16,10 +16,11 @@ const app = express();
 connectDB();
 connectCloudinary();
 
-app.use(express.json());
-app.use(cors());
+app.post('/api/stripe', express.raw({ type: 'application/json' }), stripeWebhooks);
 
-app.use('/api/stripe', express.raw({type: 'application/json'}), stripeWebhooks);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 app.use(clerkMiddleware())
 
 app.get('/', (req, res) => res.send("Server is Live!"));

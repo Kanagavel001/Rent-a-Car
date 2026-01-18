@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Home from './pages/Home'
 import Login from './pages/Login'
-import { useUser } from '@clerk/clerk-react';
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import AllCars from './pages/AllCars'
@@ -13,7 +12,6 @@ import Dashboard from './pages/admin/Dashboard';
 import Cars from './pages/admin/Cars';
 import Bookings from './pages/admin/Bookings';
 import ScrollToTop from './components/ScrollToTop ';
-import Loading from './components/Loading';
 
 const App = () => {
 
@@ -30,7 +28,6 @@ const App = () => {
         <Route path='/cars' element={<AllCars />}/>
         <Route path='/car/:id' element={<CarDetails />}/>
         <Route path='/my-bookings' element={<MyBooking />}/>
-        <Route path='/loading/:nextUrl' element={<Loading />} />
         <Route path='/admin/*' element={<Layout />}>
           <Route index element={<Dashboard />}/>
           <Route path='cars' element={<Cars />}/>

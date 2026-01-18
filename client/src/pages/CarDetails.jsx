@@ -24,12 +24,13 @@ const CarDetails = () => {
   }
 
   const handleBooking = async () => {
-    if(!pickUpDate || !returnDate || !location){
-      notyf.error('Required all fields')
+
+    if(!pickupDate || !returnDate || !location){
+      return notyf.error('Required all fields')
     }
 
     const bookingData = {
-      user: id,
+      user: user.id,
       pickupDate,
       returnDate,
       location,
@@ -42,9 +43,29 @@ const CarDetails = () => {
 
     if(data.success){
       window.location.href = data.url;
+      notyf.success(data.message)
     }else{
       notyf.error(data.message);
     }
+  }
+
+  const checkAvailability = async (e) => {
+    e.preventDefault();
+
+    const carData = {
+      pickupDate,
+      returnDate,
+      id
+    }
+
+    const { data } = await axios.post('/api/booking/check-availability', carData);
+
+    if(data.success){
+      notyf.success(data.message)
+    }else{
+      notyf.error(data.message)
+    }
+
   }
 
   useEffect(()=>{
@@ -95,7 +116,7 @@ const CarDetails = () => {
           </div>
         </div>
 
-        <form className=' bg-secondary/20 border-2 border-primary/5 shadow-lg shadow-primary/20 rounded-2xl p-4 space-y-4 xl:w-1/2'>
+        <form onSubmit={checkAvailability} className=' bg-secondary/20 border-2 border-primary/5 shadow-lg shadow-primary/20 rounded-2xl p-4 space-y-4 xl:w-1/2'>
 
           <div className='flex justify-between items-center'>
             <label htmlFor='from' className='flex lg:py-2 py-1 px-4 rounded-2xl ring-2 ring-primary/10 bg-white shadow-lg shadow-primary/20'>

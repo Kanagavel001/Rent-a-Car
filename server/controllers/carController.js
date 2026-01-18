@@ -28,7 +28,7 @@ export const addCar = async (req, res) => {
 
     } catch (error) {
         res.json({success: false, message: error.message});
-        console.log(`addCar Error ${error.message}`)
+        console.log(`addCar ${error.message}`)
     }
 }
 
@@ -38,7 +38,7 @@ export const getCars = async (req, res) => {
         res.json({success: true, cars});
     } catch (error) {
         res.json({success: false, message: error.message});
-        console.log(`getCars Error ${error.message}`)
+        console.log(`getCars ${error.message}`)
     }
 }
 
@@ -52,7 +52,7 @@ export const changePrice = async (req, res) => {
         res.json({success: true, message: `${car.carName} price changed successfully`});
     } catch (error) {
         res.json({success: false, message: error.message});
-        console.log(`changePrice Error ${error.message}`)
+        console.log(`changePrice ${error.message}`)
     }
 }
 
@@ -71,7 +71,7 @@ export const changeAvailability = async (req, res) => {
         res.json({success: true, message: `Car is ${car.availability}`});
     } catch (error) {
         res.json({success: false, message: error.message});
-        console.log(`changeAvailability Error ${error.message}`)
+        console.log(`changeAvailability ${error.message}`)
     }
 }
 
@@ -83,6 +83,6 @@ export const getCarsAvailabilityCount = async (req, res) => {
         res.json({success: true, available, maintenance});
     } catch (error) {
         res.json({success: false, message: error.message});
-        console.log(`getCarsAvailabilityCount Error ${error.message}`)
+        console.log(`getCarsAvailabilityCount ${error.message}`)
     }
 }

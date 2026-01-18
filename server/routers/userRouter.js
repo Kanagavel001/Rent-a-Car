@@ -1,9 +1,10 @@
 import express from 'express';
-import { isUser } from '../controllers/userController.js';
+import { getSingleUserBookings, isUser } from '../controllers/userController.js';
 import { protectUser } from '../middleware/auth.js';
 
 const userRouter = express.Router();
 
 userRouter.get('/is-user', isUser);
+userRouter.get('/bookings/:id', getSingleUserBookings);
 
 export default userRouter;
