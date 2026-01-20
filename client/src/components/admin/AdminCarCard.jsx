@@ -4,12 +4,18 @@ import { useAppContext } from '../../context/AppContext';
 
 const AdminCarCard = ({car, handleChangeAvailability}) => {
 
-    const { axios, fetchCars, notyf } = useAppContext();
+    const { axios, fetchCars, notyf, isAdmin } = useAppContext();
 
     const [editPrice, setEditPrice] = useState(false);
     const [price, setPrice] = useState(car.pricePerDay);
 
     const handleChangePrice = async (carId) => {
+
+        if(!isAdmin){
+            setEditPrice(false)
+            return notyf.error('Admin only access');
+        }
+
         const { data } = await axios.put('/api/car/change-price', {carId, price});
         if(data.success){
             notyf.success(data.message);

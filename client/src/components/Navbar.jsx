@@ -9,7 +9,7 @@ const Navbar = () => {
     const navLinks = [
         { name: 'Home', path: '/' },
         { name: 'Cars', path: '/cars' },
-        { name: 'Contact', path: '#footer' },
+        { name: 'Contact', path: '/' },
         { name: 'Admin', path: '/admin' },
     ];
 
@@ -87,16 +87,19 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu */}
-        <div className={`fixed top-0 left-0 w-full h-screen bg-white text-base flex flex-col md:hidden items-center justify-center gap-6 font-medium text-gray-800 transition-all duration-500 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
-            <button className="absolute top-4 right-4 text-primary" onClick={() => setIsMenuOpen(false)}>
+        <div className={`fixed top-0 left-0 h-screen bg-transparent text-base flex flex-col md:hidden justify-center gap-6 font-medium  transition-all duration-500 pl-2 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
+            
+
+            <div onInvalidCapture={()=>setIsMenuOpen(false)} className='flex flex-col gap-y-5 text-center bg-bg p-8 rounded-xl ring-2 ring-secondary/10 shadow-lg shadow-primary/20 relative w-fit'>
+            <button className="absolute top-2 right-2 text-primary" onClick={() => setIsMenuOpen(false)}>
                 <X />
             </button>
-
-            {navLinks.map((link, i) => (
-                <a className='text-primary' key={i} href={link.path} onClick={() => setIsMenuOpen(false)}>
-                    {link.name}
-                </a>
-            ))}
+                {navLinks.map((link, i) => (
+                    <Link className='text-primary bg-white px-4 py-2 shadow-inner rounded-xl shadow-primary/30 text-sm' key={i} to={link.path} onClick={() => setIsMenuOpen(false)}>
+                        {link.name}
+                    </Link>
+                ))}
+            </div>
         </div>
     </nav>
   )

@@ -5,7 +5,7 @@ import { useAppContext } from '../../context/AppContext';
 
 const AddCar = ({setAddCar}) => {
 
-    const { axios, notyf } = useAppContext();
+    const { axios, notyf, isAdmin } = useAppContext();
 
     const [carName, setCarName] = useState('');
     const [carType, setCarType] = useState('');
@@ -23,6 +23,12 @@ const AddCar = ({setAddCar}) => {
 
     const handleAddCar = async (e) => {
         e.preventDefault();
+
+        if(!isAdmin){
+            setAddCar(false);
+            return notyf.error('Admin only access');
+        }
+
         try {
             const carData = {
                 carName, carType, pricePerDay, seats, transmission, fuelType, AC

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Home from './pages/Home'
 import Login from './pages/Login'
@@ -12,11 +12,21 @@ import Dashboard from './pages/admin/Dashboard';
 import Cars from './pages/admin/Cars';
 import Bookings from './pages/admin/Bookings';
 import ScrollToTop from './components/ScrollToTop ';
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const App = () => {
 
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, 
+      once: true,
+      easing: "ease-in-out",
+    });
+  }, []);
+
   const isLoginPage = useLocation().pathname.startsWith('/login');
-  const isAdminPage = useLocation().pathname.startsWith('/admin')
+  const isAdminPage = useLocation().pathname.startsWith('/admin');
 
   return (
     <div>

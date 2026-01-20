@@ -91,12 +91,12 @@ const CarDetails = () => {
       </div>
 
       <div className='flex lg:flex-row flex-col items-center mt-6 lg:mt-8 gap-6'>
-        <div className='rounded-2xl overflow-hidden lg:w-1/2 w-full shadow-lg shadow-primary/20 ring-2 ring-primary/10'>
+        <div data-aos="zoom-in" className='rounded-2xl overflow-hidden lg:w-1/2 w-full shadow-lg shadow-primary/20 ring-2 ring-primary/10'>
           <img src={mainImage} alt="" className='w-full h-70 sm:h-90 object-cover rounded-2xl hover:scale-105 transition-all duration-300' />
         </div>
         <div className='grid grid-cols-2 gap-4 lg:w-1/2 w-full'>
           {Array.isArray(car?.images) && car.images.map((image, i) => (
-            <div key={i} className={`overflow-hidden rounded-2xl shadow-lg transition-all duration-300 ${image === mainImage && "shadow-primary/20 ring-2 ring-primary/10"}`}>
+            <div data-aos="zoom-out" key={i} className={`overflow-hidden rounded-2xl shadow-lg transition-all duration-300 ${image === mainImage && "shadow-primary/20 ring-2 ring-primary/10"}`}>
               <img className='w-full sm:h-40 h-30 object-cover rounded-2xl hover:scale-105 transition-all duration-300' onClick={()=>(setMainImage(image))} src={image} alt="" />
             </div>
           ))}

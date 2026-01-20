@@ -4,7 +4,7 @@ import moment from 'moment'
 
 const Bookings = () => {
 
-  const { bookings, bookingCount, axios, notyf, fetechBookings } = useAppContext();
+  const { bookings, bookingCount, axios, notyf, fetechBookings, isAdmin } = useAppContext();
 
   const [selectedBookings, setSelectedBookings] = useState([]);
   const [select, setSelect] = useState('Confirmed');
@@ -15,6 +15,11 @@ const Bookings = () => {
   }
 
   const handleTakeCarBooking = async (bookingId) => {
+
+    if(!isAdmin){
+        return notyf.error('Admin only access');
+    }
+
     const { data } = await axios.put(`/api/booking/ongoing/${bookingId}`);
     if(data.success){
       notyf.success(data.message);
@@ -25,6 +30,11 @@ const Bookings = () => {
   }
 
   const handleCompleteBooking = async (bookingId) => {
+    
+    if(!isAdmin){
+        return notyf.error('Admin only access');
+    }
+
     const { data } = await axios.put(`/api/booking/complete/${bookingId}`)
     if(data.success){
       notyf.success(data.message);
@@ -46,10 +56,10 @@ const Bookings = () => {
         <h1 className='text-3xl max-[400px]:text-xl font-bold text-primary text-shadow-lg text-shadow-secondary title max-md:text-center'>Bookings</h1>
 
         <div className='grid grid-cols-4 max-md:grid-cols-2 w-fit mx-auto gap-x-4 gap-y-2 text-white text-sm max-[400px]:text-xs font-medium mt-4 text-center'>
-            <button onClick={()=>selectBooking('Confirmed')} className='bg-secondary px-4 py-1 rounded-full'>Confirmed : {bookingCount.confirmed}</button>
-            <button onClick={()=>selectBooking('Ongoing')} className='bg-yellow-400 px-4 py-1 rounded-full'>Ongoing : {bookingCount.ongoing}</button>
-            <button onClick={()=>selectBooking('Completed')} className='bg-green-600 px-4 py-1 rounded-full'>Completed : {bookingCount.completed}</button>
-            <button onClick={()=>selectBooking('Cancelled')} className='bg-red-600 px-4 py-1 rounded-full'>Cancelled : {bookingCount.cancelled}</button>
+            <button onClick={()=>selectBooking('Confirmed')} className='bg-secondary hover:bg-secondary/90 transition duration-300 hover:scale-103 active:scale-97 px-4 py-1 rounded-full shadow-lg shadow-primary/30'>Confirmed : {bookingCount.confirmed}</button>
+            <button onClick={()=>selectBooking('Ongoing')} className='bg-yellow-400 hover:bg-yellow-300 transition duration-300 hover:scale-103 active:scale-97 px-4 py-1 rounded-full shadow-lg shadow-primary/30'>Ongoing : {bookingCount.ongoing}</button>
+            <button onClick={()=>selectBooking('Completed')} className='bg-green-600 hover:bg-green-500 transition duration-300 hover:scale-103 active:scale-97 px-4 py-1 rounded-full shadow-lg shadow-primary/30'>Completed : {bookingCount.completed}</button>
+            <button onClick={()=>selectBooking('Cancelled')} className='bg-red-600 hover:bg-red-500 transition duration-300 hover:scale-103 active:scale-97 px-4 py-1 rounded-full shadow-lg shadow-primary/30'>Cancelled : {bookingCount.cancelled}</button>
         </div>
 
       <div className='w-fit h-135 overflow-y-auto mt-6 max-md:mt-3 shadow-lg shadow-primary/20 ring-2 ring-secondary/10 rounded-2xl mx-auto no-scrollbar'>
@@ -85,9 +95,9 @@ const Bookings = () => {
                   <p className={`border ${booking.status === "Cancelled" && "hidden"} rounded-full mx-auto w-20 max-[400px]:w-15 py-0.5 ${booking.paid ? "bg-green-200 text-green-600" : "bg-red-200 text-red-600"}`}>{booking.paid ? "Paid" : "Pending"}</p>
                 </td>
                 <td className='space-y-2'>
-                  <p className={`rounded-full mx-auto py-0.5 w-27 max-[400px]:w-22 text-white ${booking.status === "Ongoing" ? "bg-yellow-400" : booking.status === "Cancelled" ? "bg-red-500" : booking.status === "Confirmed" ? "bg-secondary" : "hidden"}`}>{booking.status}</p>
+                  <p className={`rounded-full mx-auto py-1 w-27 max-[400px]:w-22 text-white ${booking.status === "Ongoing" ? "bg-yellow-400" : booking.status === "Cancelled" ? "bg-red-500" : booking.status === "Confirmed" ? "bg-secondary" : "bg-green-600 text-white"}`}>{booking.status}</p>
 
-                  <button disabled={booking.status === "Completed" || "Cancelled"} onClick={()=> booking.status === 'Confirmed' ?  handleTakeCarBooking(booking._id) : handleCompleteBooking(booking._id)} className={`font-medium rounded-full w-27 max-[400px]:w-22 mx-auto py-1 ${booking.status === "Cancelled" ? "hidden" : booking.status === "Completed" ? "bg-green-600 text-white" : "bg-linear-to-bl to-primary from-secondary hover:to-secondary/60 hover:from-secondary text-white cursor-pointer hover:text-primary shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all duration-300"}`}>{booking.status === "Completed" ? "Completed" : booking.status === "Confirmed" ? "Take a car" : "Complete" }</button>
+                  <button onClick={()=> booking.status === 'Confirmed' ?  handleTakeCarBooking(booking._id) : handleCompleteBooking(booking._id)} className={`font-medium rounded-full w-27 max-[400px]:w-22 mx-auto py-1 ${booking.status === "Cancelled" ? "hidden" : booking.status === "Completed" ? "hidden" : "bg-linear-to-bl to-primary from-secondary hover:to-secondary/60 hover:from-secondary text-white cursor-pointer hover:text-primary shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all duration-300"}`}>{booking.status === "Completed" ? "Completed" : booking.status === "Confirmed" ? "Take a car" : "Complete" }</button>
                 </td>
               </tr>
             ))}

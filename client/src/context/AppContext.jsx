@@ -15,6 +15,7 @@ export const AppProvider = ({ children }) => {
     const { getToken } = useAuth();
     const [cars, setCars] = useState([]);
     const [isUser, setIsUser] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [bookings, setBookings] = useState([]);
     const [bookingCount, setBookingCount] = useState({
         confirmed: "",
@@ -29,8 +30,13 @@ export const AppProvider = ({ children }) => {
         const { data } = await axios.get(`/api/user/is-user/${userId}`)
         if(data.success){
             setIsUser(true);
-        }else{
-            notyf.success(data.message)
+        }
+    }
+
+    const fetchIsAdmin = async (userId) => {
+        const { data } = await axios.get(`/api/admin/is-admin/${userId}`)
+        if(data.success){
+            setIsAdmin(true);
         }
     }
 
@@ -63,10 +69,11 @@ export const AppProvider = ({ children }) => {
     useEffect(()=>{
         if(user){
             fetchIsUser(user.id);
+            fetchIsAdmin(user.id)
         }
     }, [user])
 
-    const value = { axios, user, isUser, getToken, navigate, carTypes, cars, setCars, fetchCars, notyf, bookings, bookingCount, fetechBookings }
+    const value = { axios, user, isUser, isAdmin, getToken, navigate, carTypes, cars, setCars, fetchCars, notyf, bookings, bookingCount, fetechBookings }
 
     return (
         <AppContext.Provider value={value}>

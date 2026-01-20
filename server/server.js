@@ -10,6 +10,7 @@ import { inngest, functions } from "./inngest/index.js"
 import userRouter from './routers/userRouter.js';
 import { stripeWebhooks } from './controllers/stripeWebhooks.js';
 import bookingRouter from './routers/bookingRouter.js';
+import adminRouter from './routers/AdminRouter.js';
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use('/api/car', carRouter);
 app.use('/api/user', userRouter);
 app.use('/api/booking', bookingRouter);
+app.use('/api/admin', adminRouter);
 
 const PORT = process.env.PORT || 3000;
 

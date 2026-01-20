@@ -6,7 +6,7 @@ import { useAppContext } from '../../context/AppContext'
 
 const Cars = () => {
 
-  const { cars, axios, fetchCars, notyf } = useAppContext();
+  const { cars, axios, fetchCars, notyf, isAdmin } = useAppContext();
 
   const [addCar, setAddCar] = useState(false);
   const [available, setAvailable] = useState('');
@@ -21,12 +21,17 @@ const Cars = () => {
   }
 
   const handleChangeAvailability = async (carId) => {
-      const { data } = await axios.put('/api/car/change-availability', {carId});
-      if(data.success){
-          notyf.success(data.message);
-      }else{
-          notyf.error(data.message);
-      }
+
+    if(!isAdmin){
+        return notyf.error('Admin only access');
+    }
+    
+    const { data } = await axios.put('/api/car/change-availability', {carId});
+    if(data.success){
+        notyf.success(data.message);
+    }else{
+        notyf.error(data.message);
+    }
   }
 
   useEffect(()=>{

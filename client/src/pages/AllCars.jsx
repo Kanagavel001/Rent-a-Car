@@ -36,8 +36,8 @@ const AllCars = () => {
               <CarCard car={car} key={car._id}/>
           )) 
           : 
-            cars.map((car) => (
-              <CarCard car={car} key={car._id}/>
+            cars.map((car, i) => (
+              <CarCard car={car} key={car._id} aos={"fade-up"} delay={i <= 5 ? i * 100 : i * 50}/>
           ))
           }
         </div>
