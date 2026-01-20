@@ -103,6 +103,67 @@ export const checkAvailability = async (req, res) => {
 
     } catch (error) {
         res.json({success: false, message: error.message});
-        console.log(`checkAvailability ${error}`)
+        console.log(`checkAvailability ${error}`);
     }
 } 
+
+export const getAllBookings = async (req, res) => {
+    try {
+        const bookings = await Booking.find({}).populate('car user').sort({pickupDate: 1});
+
+        const confirmedCount = await Booking.countDocuments({status: 'Confirmed'});
+        const ongoingCount = await Booking.countDocuments({status: 'Ongoing'});
+        const completedCount = await Booking.countDocuments({status: 'Completed'});
+        const cancelledCount = await Booking.countDocuments({status: 'Cancelled'});
+
+        res.json({success: true, bookings, confirmedCount, ongoingCount, completedCount, cancelledCount });
+    } catch (error) {
+        res.json({success: false, message: error.message});
+        console.log(`getAllBookings ${error}`);
+    }
+}
+
+export const handleOngoing = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const booking = await Booking.findByIdAndUpdate(id, {status: 'Ongoing'}).populate('car');
+
+        res.json({success: true, message: `${booking.car.carName} is going to Rent`});
+    } catch (error) {
+        res.json({success: false, message: error.message});
+        console.log(`handleOngoing ${error}`);
+    }
+}
+
+export const handleComplete = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const booking = await Booking.findById(id).populate('car');
+
+        if(!booking.paid){
+            return res.json({success: false, message: "Payment is pending"})
+        }
+
+        booking.status = 'Completed';
+        await booking.save()
+
+        res.json({success: true, message: `${booking.car.carName} booking is successfully completed`});
+    } catch (error) {
+        res.json({success: false, message: error.message});
+        console.log(`handleOngoing ${error}`);
+    }
+}
+
+
+export const handleCancel = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const booking = await Booking.findByIdAndUpdate(id, {status: 'Cancelled'}).populate('car');
+        res.json({success: true, message: `${booking.car.carName} booking is Cancelled` })
+    } catch (error) {
+        res.json({success: false, message: error.message});
+        console.log(`handleCancel ${error}`);
+    }
+}

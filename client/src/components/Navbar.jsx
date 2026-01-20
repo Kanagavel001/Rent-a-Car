@@ -50,9 +50,9 @@ const Navbar = () => {
         <div className='flex items-center gap-8'>
             <div className="hidden md:flex items-center gap-4 lg:gap-8">
                 {navLinks.map((link, i) => (
-                    <a key={i} href={link.path} className={`group font-medium flex flex-col gap-0.5 bg-linear-to-tr to-primary from-secondary hover:to-secondary/60 hover:from-secondary rounded-full py-1 px-4 text-sm  text-white hover:shadow-lg shadow-secondary/50 hover:text-primary hover:scale-103 transition-all duration-300${isScrolled ? "" : ""}`}>
+                    <Link key={i} to={link.path} className={`group font-medium flex flex-col gap-0.5 bg-linear-to-tr to-primary from-secondary hover:to-secondary/60 hover:from-secondary rounded-full py-1 px-4 text-sm  text-white hover:shadow-lg shadow-secondary/50 hover:text-primary hover:scale-103 transition-all duration-300${isScrolled ? "" : ""}`}>
                         {link.name}
-                    </a>
+                    </Link>
                 ))}
             </div>
         
@@ -64,7 +64,7 @@ const Navbar = () => {
                         </UserButton.MenuItems>
                     </UserButton>
                 : 
-                    <button onClick={()=>navigate('/login')} className={`px-8 py-1.5 rounded-full ml-4 bg-primary hover:bg-primary/80 text-white hover:shadow-lg shadow-primary/50 transition-all duration-300 active:scale-95 font-medium cursor-pointer ${isScrolled ? "" : ""}`}>
+                    <button onClick={()=>navigate('/login')} className={`bg-linear-to-tr to-primary from-secondary hover:to-secondary/60 hover:from-secondary rounded-full py-2 px-8 text-white hover:shadow-lg shadow-secondary/50 hover:text-primary hover:scale-105 active:scale-95 transition-all duration-300`}>
                         Login
                     </button>
                 }
@@ -79,7 +79,7 @@ const Navbar = () => {
                         </UserButton.MenuItems>
                     </UserButton>
             : 
-            <button onClick={()=>navigate('/login')} className="bg-primary text-white px-6 py-1 active:scale-95 rounded-full transition-all duration-300 font-medium text-sm">
+            <button onClick={()=>navigate('/login')} className="bg-linear-to-tr to-primary from-secondary hover:to-secondary/60 hover:from-secondary rounded-full py-1 px-6 text-sm text-white hover:shadow-lg shadow-secondary/50 hover:text-primary hover:scale-105 active:scale-95 transition-all duration-300">
                 Login
             </button>
             }

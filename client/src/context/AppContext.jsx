@@ -14,8 +14,25 @@ export const AppProvider = ({ children }) => {
     const { user } = useUser();
     const { getToken } = useAuth();
     const [cars, setCars] = useState([]);
+    const [isUser, setIsUser] = useState(false);
+    const [bookings, setBookings] = useState([]);
+    const [bookingCount, setBookingCount] = useState({
+        confirmed: "",
+        ongoing: "",
+        completed: "",
+        cancelled: "",
+    });
 
     const carTypes = ["Hatchback", "Sedan", "SUV", "Luxury", "Electric"]
+
+    const fetchIsUser = async (userId) => {
+        const { data } = await axios.get(`/api/user/is-user/${userId}`)
+        if(data.success){
+            setIsUser(true);
+        }else{
+            notyf.success(data.message)
+        }
+    }
 
     const fetchCars = async () => {
         const { data } = await axios.get('/api/car/get-all');
@@ -24,11 +41,32 @@ export const AppProvider = ({ children }) => {
         }
     }
 
+    const fetechBookings = async () => {
+        const { data } = await axios.get('/api/booking/get-all');
+
+        if(data.success){
+            setBookings(data.bookings);
+            setBookingCount({
+                confirmed: data.confirmedCount,
+                 ongoing: data.ongoingCount, 
+                 completed: data.completedCount, 
+                 cancelled: data.cancelledCount
+            })
+        }
+    }
+
     useEffect(()=>{
         fetchCars();
+        fetechBookings();
     }, []);
 
-    const value = { axios, user, getToken, navigate, carTypes, cars, setCars, fetchCars, notyf }
+    useEffect(()=>{
+        if(user){
+            fetchIsUser(user.id);
+        }
+    }, [user])
+
+    const value = { axios, user, isUser, getToken, navigate, carTypes, cars, setCars, fetchCars, notyf, bookings, bookingCount, fetechBookings }
 
     return (
         <AppContext.Provider value={value}>

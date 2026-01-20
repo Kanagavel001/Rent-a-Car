@@ -3,11 +3,10 @@ import AdminCarCard from '../../components/admin/AdminCarCard'
 import { Plus } from 'lucide-react'
 import AddCar from '../../components/admin/AddCar'
 import { useAppContext } from '../../context/AppContext'
-import notyf from '../../components/Notyf'
 
 const Cars = () => {
 
-  const { cars, axios, fetchCars } = useAppContext();
+  const { cars, axios, fetchCars, notyf } = useAppContext();
 
   const [addCar, setAddCar] = useState(false);
   const [available, setAvailable] = useState('');

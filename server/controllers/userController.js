@@ -8,7 +8,7 @@ export const getSingleUserBookings = async (req, res) => {
     try {
 
         const { id } = req.params; 
-        const bookings = await Booking.find({user: id}).populate('car').sort({createdAt: -1});
+        const bookings = await Booking.find({user: id}).populate('car').sort({pickupDate: 1});
         res.json({ success: true, bookings});
 
     } catch (error) {

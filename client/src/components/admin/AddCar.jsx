@@ -1,12 +1,11 @@
 import { ImagePlus, X } from 'lucide-react';
 import React, { useState } from 'react'
 import { useAppContext } from '../../context/AppContext';
-import notyf from '../Notyf';
 
 
 const AddCar = ({setAddCar}) => {
 
-    const { axios } = useAppContext();
+    const { axios, notyf } = useAppContext();
 
     const [carName, setCarName] = useState('');
     const [carType, setCarType] = useState('');

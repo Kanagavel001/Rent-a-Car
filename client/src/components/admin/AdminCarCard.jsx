@@ -1,11 +1,10 @@
 import { AirVent, Cog, Fuel, Repeat, StarIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useAppContext } from '../../context/AppContext';
-import notyf from '../Notyf';
 
 const AdminCarCard = ({car, handleChangeAvailability}) => {
 
-    const { axios, fetchCars } = useAppContext();
+    const { axios, fetchCars, notyf } = useAppContext();
 
     const [editPrice, setEditPrice] = useState(false);
     const [price, setPrice] = useState(car.pricePerDay);

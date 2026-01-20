@@ -1,5 +1,5 @@
 import React from 'react'
-import { BadgeIndianRupee, BookCheck, CarFront, CircleUserRound, X } from 'lucide-react'
+import { BadgeIndianRupee, BookCheck, CarFront, CircleUserRound } from 'lucide-react'
 import { dummyDashboardData } from '../../assets/assets'
 
 const Dashboard = () => {

@@ -1,7 +1,44 @@
-import React from 'react'
-import { dummybookings } from '../../assets/assets'
+import React, { useEffect, useState } from 'react'
+import { useAppContext } from '../../context/AppContext'
+import moment from 'moment'
 
 const Bookings = () => {
+
+  const { bookings, bookingCount, axios, notyf, fetechBookings } = useAppContext();
+
+  const [selectedBookings, setSelectedBookings] = useState([]);
+  const [select, setSelect] = useState('Confirmed');
+
+  const selectBooking = async (selected) => {
+    setSelect(selected)
+    setSelectedBookings(bookings.filter(booking => booking.status === selected))
+  }
+
+  const handleTakeCarBooking = async (bookingId) => {
+    const { data } = await axios.put(`/api/booking/ongoing/${bookingId}`);
+    if(data.success){
+      notyf.success(data.message);
+      fetechBookings();
+    }else{
+      notyf.error(data.message)
+    }
+  }
+
+  const handleCompleteBooking = async (bookingId) => {
+    const { data } = await axios.put(`/api/booking/complete/${bookingId}`)
+    if(data.success){
+      notyf.success(data.message);
+      fetechBookings();
+    }else{
+      notyf.error(data.message)
+    }
+  }
+
+  useEffect(()=>{
+    if (bookings?.length) {
+      selectBooking(select)
+    }
+  }, [bookings]);
 
   return (
     <div >
@@ -9,10 +46,10 @@ const Bookings = () => {
         <h1 className='text-3xl max-[400px]:text-xl font-bold text-primary text-shadow-lg text-shadow-secondary title max-md:text-center'>Bookings</h1>
 
         <div className='grid grid-cols-4 max-md:grid-cols-2 w-fit mx-auto gap-x-4 gap-y-2 text-white text-sm max-[400px]:text-xs font-medium mt-4 text-center'>
-            <p className='bg-secondary px-4 py-1 rounded-full'>Confirmed : 4</p>
-            <p className='bg-orange-600 px-4 py-1 rounded-full'>Ongoing : 4</p>
-            <p className='bg-green-600 px-4 py-1 rounded-full'>Completed : 4</p>
-            <p className='bg-red-600 px-4 py-1 rounded-full'>Cancelled : 4</p>
+            <button onClick={()=>selectBooking('Confirmed')} className='bg-secondary px-4 py-1 rounded-full'>Confirmed : {bookingCount.confirmed}</button>
+            <button onClick={()=>selectBooking('Ongoing')} className='bg-yellow-400 px-4 py-1 rounded-full'>Ongoing : {bookingCount.ongoing}</button>
+            <button onClick={()=>selectBooking('Completed')} className='bg-green-600 px-4 py-1 rounded-full'>Completed : {bookingCount.completed}</button>
+            <button onClick={()=>selectBooking('Cancelled')} className='bg-red-600 px-4 py-1 rounded-full'>Cancelled : {bookingCount.cancelled}</button>
         </div>
 
       <div className='w-fit h-135 overflow-y-auto mt-6 max-md:mt-3 shadow-lg shadow-primary/20 ring-2 ring-secondary/10 rounded-2xl mx-auto no-scrollbar'>
@@ -28,29 +65,29 @@ const Bookings = () => {
             </tr>
           </thead>
           <tbody>
-            {dummybookings.map((booking) => (
+            {selectedBookings.map((booking) => (
               <tr key={booking._id} className='odd:bg-secondary/10 text-center text-sm max-md:text-xs border-b border-secondary'>
-                <td className='py-8'><p>{booking.user}</p></td>
+                <td className='py-8'><p>{booking.user.name}</p></td>
                 <td >
-                  <p>{booking.car[0].carName}</p>
-                  <p>{booking.car[0].carType}</p>
+                  <p>{booking.car.carName}</p>
+                  <p>{booking.car.carType}</p>
                 </td>
                 <td className='max-lg:hidden'>
                   <p>{booking.location}</p>
-                  <p>{booking.pickupDate}</p>
+                  <p>{moment(booking.pickupDate).format('DD MMM yyyy')}</p>
                 </td>
                 <td className='max-lg:hidden'>
-                  <p>{booking.duration}</p>
-                  <p>{booking.returnDate}</p>
+                  <p>{booking.duration} days</p>
+                  <p>{moment(booking.returnDate).format('DD MMM yyyy')}</p>
                 </td>
                 <td className='space-y-2'>
                   <p>₹ {booking.price}</p>
                   <p className={`border ${booking.status === "Cancelled" && "hidden"} rounded-full mx-auto w-20 max-[400px]:w-15 py-0.5 ${booking.paid ? "bg-green-200 text-green-600" : "bg-red-200 text-red-600"}`}>{booking.paid ? "Paid" : "Pending"}</p>
                 </td>
                 <td className='space-y-2'>
-                  <p className={`rounded-full mx-auto py-0.5 w-27 max-[400px]:w-22 text-white ${booking.status === "Ongoing" ? "bg-orange-500 " : booking.status === "Cancelled" ? "bg-red-500" : booking.status === "Confirmed" ? "bg-secondary" : "hidden"}`}>{booking.status}</p>
+                  <p className={`rounded-full mx-auto py-0.5 w-27 max-[400px]:w-22 text-white ${booking.status === "Ongoing" ? "bg-yellow-400" : booking.status === "Cancelled" ? "bg-red-500" : booking.status === "Confirmed" ? "bg-secondary" : "hidden"}`}>{booking.status}</p>
 
-                  <button className={`font-medium cursor-pointer rounded-full w-27 max-[400px]:w-22 mx-auto py-1 ${booking.status === "Cancelled" ? "hidden" : booking.status === "Confirmed" ? "hidden" : booking.status === "Completed" ? "bg-green-600 text-white" : "bg-linear-to-bl to-primary from-secondary hover:to-secondary/60 hover:from-secondary text-white hover:text-primary shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all duration-300"}`}>{booking.status === "Completed" ? "Completed" : "Complete" }</button>
+                  <button disabled={booking.status === "Completed" || "Cancelled"} onClick={()=> booking.status === 'Confirmed' ?  handleTakeCarBooking(booking._id) : handleCompleteBooking(booking._id)} className={`font-medium rounded-full w-27 max-[400px]:w-22 mx-auto py-1 ${booking.status === "Cancelled" ? "hidden" : booking.status === "Completed" ? "bg-green-600 text-white" : "bg-linear-to-bl to-primary from-secondary hover:to-secondary/60 hover:from-secondary text-white cursor-pointer hover:text-primary shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all duration-300"}`}>{booking.status === "Completed" ? "Completed" : booking.status === "Confirmed" ? "Take a car" : "Complete" }</button>
                 </td>
               </tr>
             ))}

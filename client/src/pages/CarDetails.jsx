@@ -4,7 +4,6 @@ import { AirVent, ArrowRight, CalendarDays, Cog, Fuel, MapPin, StarIcon } from '
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useAppContext } from '../context/AppContext';
-import notyf from '../components/Notyf';
 
 const CarDetails = () => {
 
@@ -15,7 +14,7 @@ const CarDetails = () => {
   const [ returnDate, setReturnDate] = useState('');
   const [ location, setLocation] = useState('');
 
-  const { cars, user, axios, navigate } = useAppContext();
+  const { cars, user, axios, navigate, isUser, notyf } = useAppContext();
 
   const fetchcar = async (id) => {
     const car = cars.find(vehicle => vehicle._id === id)
@@ -24,6 +23,10 @@ const CarDetails = () => {
   }
 
   const handleBooking = async () => {
+
+    if(!isUser){
+      return notyf.error("Login First")
+    }
 
     if(!pickupDate || !returnDate || !location){
       return notyf.error('Required all fields')

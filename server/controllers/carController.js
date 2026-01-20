@@ -68,7 +68,7 @@ export const changeAvailability = async (req, res) => {
 
         await car.save();
 
-        res.json({success: true, message: `Car is ${car.availability}`});
+        res.json({success: true, message: `${car.carName} is ${car.availability}`});
     } catch (error) {
         res.json({success: false, message: error.message});
         console.log(`changeAvailability ${error.message}`)
