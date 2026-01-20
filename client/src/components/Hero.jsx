@@ -12,7 +12,7 @@ const Hero = () => {
         </div>
         
         <div data-aos="fade-left" data-aos-delay="200" className='flex flex-col lg:items-center items-end mb-22'>
-            <Link  to={'/cars'} className='flex items-center max-[400px]:text-sm gap-1 bg-gradient-to-tr to-primary from-secondary hover:to-secondary/60 hover:from-secondary hover:scale-105 hover:text-primary text-white shadow-lg hover:shadow-primary/80 active:scale-100 md:py-3 py-1.5 md:px-6 px-4 font-medium rounded-full transition-all duration-300 group cursor-pointer'>Explore Cars <ArrowRight className='group-hover:translate-x-1 transition-all duration-300'/></Link>
+            <Link  to={'/cars'} className='flex items-center max-[400px]:text-sm gap-1 bg-linear-to-tr to-primary from-secondary hover:to-secondary/60 hover:from-secondary hover:scale-105 hover:text-primary text-white shadow-lg hover:shadow-primary/80 active:scale-100 md:py-3 py-1.5 md:px-6 px-4 font-medium rounded-full transition-all duration-300 group cursor-pointer'>Explore Cars <ArrowRight className='group-hover:translate-x-1 transition-all duration-300'/></Link>
         </div>
         
     </div>
