@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const Hero = () => {
   return (
-    <div className='flex flex-col justify-end max-w-screen h-screen bg-bg mx-auto overflow-x-hidden px-4 md:px-16 lg:px-24 xl:px-32 bg-[url(hero_bg.png)] bg-center bg-cover'>
+    <div className='flex flex-col justify-end max-w-screen h-screen bg-bg mx-auto overflow-x-hidden px-4 md:px-16 lg:px-24 xl:px-32 bg-[url("/hero_bg.png")] bg-center bg-cover'>
 
         <div className='flex flex-col items-start pb-4 gap-2'>
             <h1 data-aos="fade-right"  className='title md:text-4xl text-3xl max-[400px]:text-2xl font-bold text-primary text-shadow-lg text-shadow-secondary'>Rent the Perfect Car for Every Journey</h1>
