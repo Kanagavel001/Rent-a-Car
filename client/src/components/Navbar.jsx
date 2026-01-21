@@ -87,7 +87,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu */}
-        <div className={`fixed top-0 left-0 h-screen bg-transparent text-base flex flex-col md:hidden justify-center gap-6 font-medium  transition-all duration-500 pl-2 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
+        <div className={`fixed top-0 right-0 bg-transparent text-base flex flex-col md:hidden gap-6 font-medium transition-all duration-500 p-3 ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
             
 
             <div onInvalidCapture={()=>setIsMenuOpen(false)} className='flex flex-col gap-y-5 text-center bg-bg p-8 rounded-xl ring-2 ring-secondary/10 shadow-lg shadow-primary/20 relative w-fit'>

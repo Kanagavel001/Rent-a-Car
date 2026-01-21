@@ -10,7 +10,7 @@ const SpecialOffers = () => {
         {title: 'Long Term Rental', icon: <Handshake />, points: ["Book for 7 days & get 1 day FREE", "Monthly rentals at discounted price"], aos: "300" },
     ]
   return (
-    <div className='max-w-screen bg-bg mx-auto overflow-x-hidden px-4 md:px-16 lg:px-20 xl:px-24 sm:py-15 py-10'>
+    <div className='max-w-screen bg-bg mx-auto overflow-hidden px-4 md:px-16 lg:px-20 xl:px-24 sm:py-15 py-10'>
             <h1 data-aos="fade-up" className='title text-4xl max-[400px]:text-2xl font-bold text-center text-primary text-shadow-lg text-shadow-secondary'>Special Offers</h1>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mx-auto w-fit py-10 sm:py-15'>
                 {offers.map((offer, i) => (

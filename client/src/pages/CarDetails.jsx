@@ -82,10 +82,10 @@ const CarDetails = () => {
 
         <h1 className='text-2xl md:text-4xl font-bold title text-primary text-shadow-lg text-shadow-secondary'>{car.carName} <span className='text-sm font-semibold text-primary text-shadow-none'>({car.carType})</span></h1>
 
-        <button onClick={handleBooking} className='bg-linear-to-bl to-primary from-secondary hover:to-secondary/60 hover:from-secondary text-white hover:text-primary hover:shadow-lg shadow-primary/50 transition-all duration-300 flex px-4 rounded-full gap-1.5 hover:scale-105 active:scale-95 py-2 max-[450px]:py-1 group cursor-pointer'>
+        <button onClick={handleBooking} className='bg-linear-to-bl to-primary from-secondary hover:to-secondary/60 hover:from-secondary text-white hover:text-primary hover:shadow-lg shadow-primary/50 transition-all duration-300 flex items-center px-4 rounded-full gap-1.5 hover:scale-105 active:scale-95 py-2 max-[450px]:py-1 group cursor-pointer text-sm sm:text-lg font-medium'>
             Book Now 
             <div className='group-hover:translate-x-1 transition-all duration-300'>
-                <ArrowRight />
+                <ArrowRight className='size-5 sm:size-6'/>
             </div>
         </button>
       </div>
@@ -96,7 +96,7 @@ const CarDetails = () => {
         </div>
         <div className='grid grid-cols-2 gap-4 lg:w-1/2 w-full'>
           {Array.isArray(car?.images) && car.images.map((image, i) => (
-            <div data-aos="zoom-out" key={i} className={`overflow-hidden rounded-2xl shadow-lg transition-all duration-300 ${image === mainImage && "shadow-primary/20 ring-2 ring-primary/10"}`}>
+            <div key={i} className={`overflow-hidden rounded-2xl shadow-lg transition-all duration-300 ${image === mainImage && "shadow-primary/20 ring-2 ring-primary/10"}`}>
               <img className='w-full sm:h-40 h-30 object-cover rounded-2xl hover:scale-105 transition-all duration-300' onClick={()=>(setMainImage(image))} src={image} alt="" />
             </div>
           ))}
@@ -124,7 +124,7 @@ const CarDetails = () => {
           <div className='flex justify-between items-center'>
             <label htmlFor='from' className='flex lg:py-2 py-1 px-4 rounded-2xl ring-2 ring-primary/10 bg-white shadow-lg shadow-primary/20'>
               <DatePicker
-                className='w-30 sm:w-40 outline-none font-medium'
+                className='w-20 sm:w-40 outline-none font-medium text-xs sm:text-sm'
                 id='from'
                 dateFormat={"dd/MM/yyyy"}
                 selected={pickupDate}
@@ -133,11 +133,11 @@ const CarDetails = () => {
                 minDate={new Date()}
                 required
               />
-              <CalendarDays />
+              <CalendarDays className='w-5 sm:w-6'/>
             </label>
             <label htmlFor='to' className='flex lg:py-2 py-1 px-4 rounded-2xl ring-2 ring-primary/10 bg-white shadow-lg shadow-primary/20'>
               <DatePicker
-                className='w-30 sm:w-40 outline-none font-medium'
+                className='w-20 sm:w-40 outline-none font-medium text-xs sm:text-sm'
                 id='to'
                 dateFormat={"dd/MM/yyyy"}
                 selected={returnDate}
@@ -146,18 +146,18 @@ const CarDetails = () => {
                 minDate={pickupDate}
                 required
               />
-              <CalendarDays />
+              <CalendarDays className='w-5 sm:w-6'/>
             </label>
           </div>
 
           <div className='flex items-center justify-between'>
 
-            <label htmlFor="location" className='relative flex lg:py-2 py-1 px-4 rounded-2xl ring-2 ring-primary/10 bg-white shadow-lg shadow-primary/20 outline-none w-44 sm:w-54'>
-              <MapPin className='absolute right-4'/>
-              <input required value={location} onChange={(e)=>setLocation(e.target.value)} type="text" id='location' className='outline-none' placeholder='your city' />
+            <label htmlFor="location" className='relative flex lg:py-2 py-1 px-4 rounded-2xl ring-2 ring-primary/10 bg-white shadow-lg shadow-primary/20 outline-none w-33 sm:w-54'>
+              <MapPin className='absolute right-2'/>
+              <input required value={location} onChange={(e)=>setLocation(e.target.value)} type="text" id='location' className='outline-none w-20 sm:w-35 bg-white' placeholder='your city' />
             </label>
 
-            <button type='submit' className='bg-linear-to-bl to-primary from-secondary hover:to-secondary/60 hover:from-secondary text-white hover:text-primary hover:shadow-lg shadow-primary/50 transition-all duration-300 px-4 rounded-2xl hover:scale-105 active:scale-95 sm:py-2 w-45 sm:w-55 py-1 cursor-pointer '>
+            <button type='submit' className='bg-linear-to-bl to-primary from-secondary hover:to-secondary/60 hover:from-secondary text-white hover:text-primary hover:shadow-lg shadow-primary/50 transition-all duration-300 px-4 rounded-2xl hover:scale-105 active:scale-95 sm:py-2  w-35 sm:w-54 py-1 cursor-pointer text-xs sm:text-sm'>
               Check Availability
             </button>
 
