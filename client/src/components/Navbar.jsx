@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import { UserButton } from '@clerk/clerk-react';
 import { Menu, TicketPlus, X } from 'lucide-react';
@@ -13,7 +13,6 @@ const Navbar = () => {
         { name: 'Admin', path: '/admin' },
     ];
 
-    const ref = useRef(null);
     const location = useLocation();
     const { user, navigate } = useAppContext();
 
